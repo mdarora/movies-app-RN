@@ -5,6 +5,7 @@ import { styles, theme } from '../theme';
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import { HeartIcon } from 'react-native-heroicons/solid';
 import { LinearGradient } from 'expo-linear-gradient';
+import Cast from '../components/Cast';
 
 const ios = Platform.OS === 'ios';
 
@@ -58,7 +59,7 @@ const MovieScreen = () => {
           <Text className='text-neutral-400 mx-4 tracking-wide'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus porro, expedita odit culpa adipisci commodi aliquid fugiat. Sequi explicabo unde illum quae? Quisquam, dolorum dolor iure debitis distinctio aut reiciendis unde harum. Necessitatibus, doloribus aperiam.</Text>
         </View>
 
-
+        <Cast/>
       </View>
     </ScrollView>
   )
