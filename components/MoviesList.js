@@ -3,7 +3,7 @@ import React from 'react'
 import { styles } from '../theme'
 import { useNavigation } from '@react-navigation/native';
 
-const MoviesList = ({ title, movies }) => {
+const MoviesList = ({ title, movies, hideSeeBtn }) => {
     const {height, width} = useWindowDimensions();
     const navigation = useNavigation();
     const movieName = 'Lorem ipsum dolor sit amet consectetur adipisicing elit.';
@@ -11,9 +11,9 @@ const MoviesList = ({ title, movies }) => {
         <View className='mb-4'>
             <View className='flex-row items-center justify-between px-2'>
                 <Text className='text-2xl text-white'>{title}</Text>
-                <TouchableOpacity>
+                {!hideSeeBtn && <TouchableOpacity>
                     <Text style={styles.text} className='text-lg'>See More</Text>
-                </TouchableOpacity>
+                </TouchableOpacity>}
             </View>
             <ScrollView
                 horizontal
@@ -21,7 +21,7 @@ const MoviesList = ({ title, movies }) => {
                 className='px-2'
             >
                 {movies.map((movie, index) => (
-                    <TouchableWithoutFeedback key={index} onPress={() => navigation.navigate('Movie', movie)}>
+                    <TouchableWithoutFeedback key={index} onPress={() => navigation.push('Movie', movie)}>
                         <View className='mr-4 my-2'>
                             <Image
                                 source={require('../assets/images/moviePoster2.png')}
