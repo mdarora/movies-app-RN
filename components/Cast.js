@@ -1,14 +1,16 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import MoviesList from './MoviesList'
 
 const Cast = () => {
     const navigation = useNavigation();
+    const [similarMovies, setSimilarMovies] = useState([1,2,3,4,5])
     return (
         <View className='my-8'>
             <Text className='text-2xl text-white px-4'>Top Cast</Text>
-            <ScrollView className='px-4 my-2'
+            <ScrollView className='px-4 mt-2 mb-6'
                 horizontal
                 showsHorizontalScrollIndicator={false}
             >
@@ -84,8 +86,9 @@ const Cast = () => {
                         <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
                     </View>
                 </TouchableOpacity>
-                
             </ScrollView>
+
+            <MoviesList title='Similar Movies' hideSeeBtn={true} movies={similarMovies}/>
         </View>
     )
 }
