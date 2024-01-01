@@ -5,9 +5,11 @@ import { StatusBar } from 'expo-status-bar';
 import { Bars3CenterLeftIcon, MagnifyingGlassIcon } from 'react-native-heroicons/outline';
 import TrendingMovies from '../components/TrendingMovies';
 import MoviesList from '../components/MoviesList';
+import { useNavigation } from '@react-navigation/native';
 
 const ios = Platform.OS === 'ios';
 const HomeScreen = () => {
+    const navigation = useNavigation();
     const [trendings, setTrendings] = useState([1, 2, 3]);
     const [upcomingMovies, setUpcomingMovies] = useState([1,2,3]);
     const [topRatedMovies, setTopRatedMovies] = useState([1,2,3]);
@@ -21,7 +23,7 @@ const HomeScreen = () => {
                     <Text className='text-3xl text-white font-bold'>
                         <Text style={styles.text}>M</Text>ovies
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Search')}>
                         <MagnifyingGlassIcon size={30} strokeWidth={2} color='white' />
                     </TouchableOpacity>
                 </View>
