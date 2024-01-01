@@ -28,7 +28,7 @@ const MovieScreen = () => {
     >
       <View className='w-full'>
 
-        <SafeAreaView className={`absolute z-20  left-2 right-2 flex-row justify-between items-center ${ios ? '' : 'mt-3'}`}>
+        <SafeAreaView className={`absolute z-20  left-2 right-2 flex-row justify-between items-center ${ios ? '' : 'mt-12'}`}>
           <TouchableOpacity style={styles.background} className='rounded-xl p-1' onPress={() => navigation.goBack()}>
             <ChevronLeftIcon size={25} strokeWidth={2.5} color={'white'} />
           </TouchableOpacity>
