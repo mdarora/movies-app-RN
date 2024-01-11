@@ -2,11 +2,10 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import MoviesList from './MoviesList'
+import { API_IMAGE_URL } from '../constants'
 
-const Cast = () => {
+const Cast = ({ cast }) => {
     const navigation = useNavigation();
-    const [similarMovies, setSimilarMovies] = useState([1,2,3,4,5])
     return (
         <View className='my-8'>
             <Text className='text-2xl text-white px-4'>Top Cast</Text>
@@ -14,81 +13,22 @@ const Cast = () => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
             >
-                <TouchableOpacity className='mr-4' onPress={() => navigation.navigate('Person')}>
-                    <View className='items-center'>
-                        <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
-                            <Image
-                                source={require('../assets/images/castImage1.png')}
-                                className='w-20 h-24'
-                            />
-                        </View>
-                        <Text className='text-base text-neutral-400'>Jhon Wick</Text>
-                        <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity className='mr-4' onPress={() => navigation.navigate('Person')}>
-                    <View className='items-center'>
-                        <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
-                            <Image
-                                source={require('../assets/images/castImage1.png')}
-                                className='w-20 h-24'
-                            />
-                        </View>
-                        <Text className='text-base text-neutral-400'>Jhon Wick</Text>
-                        <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity className='mr-4' onPress={() => navigation.navigate('Person')}>
-                    <View className='items-center'>
-                        <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
-                            <Image
-                                source={require('../assets/images/castImage1.png')}
-                                className='w-20 h-24'
-                            />
-                        </View>
-                        <Text className='text-base text-neutral-400'>Jhon Wick</Text>
-                        <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity className='mr-4' onPress={() => navigation.navigate('Person')}>
-                    <View className='items-center'>
-                        <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
-                            <Image
-                                source={require('../assets/images/castImage1.png')}
-                                className='w-20 h-24'
-                            />
-                        </View>
-                        <Text className='text-base text-neutral-400'>Jhon Wick</Text>
-                        <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity className='mr-4' onPress={() => navigation.navigate('Person')}>
-                    <View className='items-center'>
-                        <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
-                            <Image
-                                source={require('../assets/images/castImage1.png')}
-                                className='w-20 h-24'
-                            />
-                        </View>
-                        <Text className='text-base text-neutral-400'>Jhon Wick</Text>
-                        <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
-                    </View>
-                </TouchableOpacity>
-                <TouchableOpacity className='mr-4' onPress={() => navigation.navigate('Person')}>
-                    <View className='items-center'>
-                        <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
-                            <Image
-                                source={require('../assets/images/castImage1.png')}
-                                className='w-20 h-24'
-                            />
-                        </View>
-                        <Text className='text-base text-neutral-400'>Jhon Wick</Text>
-                        <Text className='text-base text-neutral-400'>Keanu Reevs</Text>
-                    </View>
-                </TouchableOpacity>
-            </ScrollView>
+                {cast && cast?.map((c, i) => (
 
-            <MoviesList title='Similar Movies' hideSeeBtn={true} movies={similarMovies}/>
+                    <TouchableOpacity key={i} className='mr-4' onPress={() => navigation.navigate('Person')}>
+                        <View className='items-center'>
+                            <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
+                                <Image
+                                    source={{uri : API_IMAGE_URL + c?.profile_path}}
+                                    className='w-20 h-24'
+                                />
+                            </View>
+                            <Text className='text-base text-neutral-400'>{c?.character}</Text>
+                            <Text className='text-base text-neutral-400'>{c?.name}</Text>
+                        </View>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
         </View>
     )
 }

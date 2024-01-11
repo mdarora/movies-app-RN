@@ -1,11 +1,13 @@
 import { View, Text, ScrollView, SafeAreaView, TouchableOpacity, Image, useWindowDimensions } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { styles, theme } from '../theme';
 import { ChevronLeftIcon } from 'react-native-heroicons/outline';
 import { HeartIcon } from 'react-native-heroicons/solid';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/Cast';
+import MoviesList from '../components/MoviesList';
+import { API_BASE_URL, API_IMAGE_URL, API_KEY } from '../constants';
 
 const ios = Platform.OS === 'ios';
 
@@ -15,10 +17,44 @@ const MovieScreen = () => {
   const { height, width } = useWindowDimensions();
 
   const [isFavourite, setIsFavourite] = useState(false);
-  const movieName = 'Ant-Man and the Wasp: Quantumania';
+  const [similarMovies, setSimilarMovies] = useState([]);
+  const [movieDetails, setMovieDetails] = useState({});
+  const [cast, setCast] = useState([]);
 
-  useLayoutEffect(() => {
-    // api call here
+  const getMovieDetails =async () => {
+    try {
+      const res =await fetch(`${API_BASE_URL}/movie/${params.id}?language=en-US&api_key=${API_KEY}`);
+      const data =await res.json();
+      data && setMovieDetails(data);
+    } catch (error) {
+      console.error('error getting movie details : ', error);
+    }
+  }
+  
+  const getMovieCast =async () => {
+    try {
+      const res =await fetch(`${API_BASE_URL}/movie/${params.id}/credits?language=en-US&api_key=${API_KEY}`);
+      const data =await res.json();
+      data && data.cast && setCast(data.cast);
+    } catch (error) {
+      console.error('error getting movie cast : ', error);
+    }
+  }
+  
+  const getSimilarMovies =async () => {
+    try {
+      const res =await fetch(`${API_BASE_URL}/movie/${params.id}/similar?language=en-US&api_key=${API_KEY}`);
+      const data =await res.json();
+      data && data.results && setSimilarMovies(data.results);
+    } catch (error) {
+      console.error('error getting Similar movies : ', error);
+    }
+  }
+
+  useEffect(() => {
+    getMovieDetails();
+    getMovieCast();
+    getSimilarMovies();
   }, [params]);
 
   return (
@@ -40,7 +76,7 @@ const MovieScreen = () => {
 
         <View>
           <Image
-            source={require('../assets/images/moviePoster2.png')}
+            source={{uri: API_IMAGE_URL + params.poster_path}}
             style={{ width, height: height * 0.55 }}
           />
           <LinearGradient
@@ -53,13 +89,20 @@ const MovieScreen = () => {
         </View>
 
         <View style={{ marginTop: -(height * 0.09) }} className='space-y-3'>
-          <Text className='text-white text-center text-3xl font-bold tracking-wider'>{movieName}</Text>
-          <Text className='text-neutral-400 text-base text-center font-semibold'>Released • 2020 • 170 min</Text>
-          <Text className='text-neutral-400 text-base text-center font-semibold'>Action • Thrill • Comedy</Text>
-          <Text className='text-neutral-400 mx-4 tracking-wide'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus porro, expedita odit culpa adipisci commodi aliquid fugiat. Sequi explicabo unde illum quae? Quisquam, dolorum dolor iure debitis distinctio aut reiciendis unde harum. Necessitatibus, doloribus aperiam.</Text>
+          <Text className='text-white text-center text-3xl font-bold tracking-wider'>{params.title}</Text>
+          <Text className='text-neutral-400 text-base text-center font-semibold'>{movieDetails?.status} • {movieDetails?.release_date?.split('-')[0]} • {movieDetails?.runtime} min</Text>
+          <Text className='text-neutral-400 text-base text-center font-semibold'>
+            {movieDetails?.genres?.map((g, i) => {
+              return (i == movieDetails?.genres.length - 1 ? `${g.name}` : `${g.name} • `)
+            })}
+          </Text>
+          <Text className='text-neutral-400 mx-4 tracking-wide'>{movieDetails?.overview}</Text>
         </View>
 
-        <Cast/>
+        <Cast cast={cast}/>
+
+        <MoviesList title='Similar Movies' hideSeeBtn={true} movies={similarMovies}/>
+
       </View>
     </ScrollView>
   )

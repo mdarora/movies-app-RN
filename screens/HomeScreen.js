@@ -13,14 +13,14 @@ const HomeScreen = () => {
     const navigation = useNavigation();
     const [upcomingMovies, setUpcomingMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
-    const [nowPlayingMovies, setGetNowPlayingMovies] = useState([]);
+    const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
 
     const getNowPlayingMovies = async () => {
         try {
             const res = await fetch(`${API_BASE_URL}/movie/now_playing?language=en-US&page=1&api_key=${API_KEY}`);
             const data = await res.json();
             if (data && data.results) {
-                setGetNowPlayingMovies(data.results);
+                setNowPlayingMovies(data.results);
             }
         } catch (error) {
             console.log('error getting now playing movies : ',error);

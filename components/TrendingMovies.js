@@ -12,10 +12,6 @@ const TrendingMovies = () => {
 
   const [movies, setMovies] = useState([]);
 
-  const handleClick = (movie) => {
-    navigation.navigate('Movie', movie);
-  }
-
   useEffect(() => {
     const fetchTrendingMovies = async () => {
       try {
@@ -31,13 +27,13 @@ const TrendingMovies = () => {
 
     fetchTrendingMovies();
   }, []);
-  
+
   return (
     <View className='my-6'>
       <Text className='text-white text-2xl mx-4 mb-5' >Trending</Text>
       <Carousel
         data={movies}
-        renderItem={(item) => <MovieCard movie={item} handleClick={handleClick} />}
+        renderItem={(item) => <MovieCard movie={item} />}
         firstItem={1}
         inactiveSlideOpacity={0.6}
         sliderWidth={width}

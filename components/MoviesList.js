@@ -20,18 +20,22 @@ const MoviesList = ({ title, movies, hideSeeBtn }) => {
                 showsHorizontalScrollIndicator={false}
                 className='px-2'
             >
-                {movies.map((movie, index) => (
+                {movies && movies.length > 0 ? ( movies.map((movie, index) => (
                     <TouchableWithoutFeedback key={index} onPress={() => navigation.push('Movie', movie)}>
                         <View className='mr-4 my-2'>
                             <Image
-                                source={{uri : API_IMAGE_URL + movie.poster_path}}
+                                source={{uri : API_IMAGE_URL + movie?.poster_path}}
                                 style={{width: width*0.33, height: height*0.22}}
                                 className='rounded-2xl'
                             />
-                            <Text className='text-gray-200 text-center mt-1'>{movie.title.length > 16 ? movie.title.slice(0, 16) + ' ...' : movie.title}</Text>
+                            <Text className='text-gray-200 text-center mt-1'>{movie?.title?.length > 16 ? movie?.title.slice(0, 16) + ' ...' : movie?.title}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                ))}
+                ))) : (
+                    <View className='mr-4 my-2'>
+                        <Text className='text-gray-100'>No Movies Found!</Text>
+                    </View>
+                )}
             </ScrollView>
         </View>
     )
