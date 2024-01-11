@@ -15,7 +15,7 @@ const Cast = ({ cast }) => {
             >
                 {cast && cast?.map((c, i) => (
 
-                    <TouchableOpacity key={i} className='mr-4' onPress={() => navigation.navigate('Person')}>
+                    <TouchableOpacity key={i} className='mr-4' onPress={() => navigation.navigate('Person', c)}>
                         <View className='items-center'>
                             <View className='w-20 h-20 rounded-full border border-neutral-400 items-start overflow-hidden'>
                                 <Image
